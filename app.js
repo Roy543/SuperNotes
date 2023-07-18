@@ -6,8 +6,19 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const User = require('./models/User');
 const indexRouter = require('./routes/index');
+const MongoStore = require('connect-mongo');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 const app = express();
+
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI })
+}));
 
 app.use(session({ secret: 'my secret', resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
