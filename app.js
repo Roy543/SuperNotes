@@ -13,6 +13,9 @@ dotenv.config();
 
 const app = express();
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
@@ -32,6 +35,8 @@ passport.deserializeUser(User.deserializeUser());
 // Connect to MongoDB, define routes, and start server...
 
 app.use('/', indexRouter);
+app.use(express.static('public'));
+
 
 mongoose.connect('mongodb://localhost/myapp', {useNewUrlParser: true, useUnifiedTopology: true});
 app.listen(3000, () => console.log('Server is running on port 3000'));

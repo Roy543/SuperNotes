@@ -1,7 +1,18 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-const User = require('../models/User'); // Adjust this path if necessary
+const User = require('../models/User');
+const path = require('path');
+
+function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    } else {
+        // Redirect unauthenticated requests to the login page
+        res.redirect('/login');
+    }
+}
+
 
 router.post('/signup', (req, res) => {
     User.register(new User({ username: req.body.username }), req.body.password, (err, user) => {
@@ -36,6 +47,24 @@ router.post('/login', (req, res, next) => {
             res.send('Logged in!');
         });
     })(req, res, next);
+});
+
+//routes for all the files
+
+router.get('/signup', function(req, res) {
+    res.sendFile(path.join(__dirname, '../public/signup.html'));
+});
+
+router.get('/login', function(req, res) {
+    res.sendFile(path.join(__dirname, '../public/login.html'));
+});
+
+router.get('/profile',ensureAuthenticated, function(req, res) {
+    res.sendFile(path.join(__dirname, '../public/profile.html'));
+});
+
+router.get('/camera',ensureAuthenticated, function(req, res) {
+    res.sendFile(path.join(__dirname, '../public/camera.html'));
 });
 
 module.exports = router;
