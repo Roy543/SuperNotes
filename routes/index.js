@@ -59,8 +59,17 @@ router.get('/login', function(req, res) {
     res.sendFile(path.join(__dirname, '../public/login.html'));
 });
 
+
+router.get('/logout', function(req, res, next) {
+    req.logout(function(err) {
+      if (err) { return next(err); }
+      res.redirect('/login');
+    });
+  });
+  
+
 router.get('/profile',ensureAuthenticated, function(req, res) {
-    res.sendFile(path.join(__dirname, '../public/profile.html'));
+    res.render('profile', { user: req.user });
 });
 
 router.get('/camera',ensureAuthenticated, function(req, res) {
