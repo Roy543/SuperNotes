@@ -6,6 +6,7 @@ const session = require('express-session');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const User = require('./models/User');
+const Note = require ('./models/Note');
 const indexRouter = require('./routes/index');
 const MongoStore = require('connect-mongo');
 const dotenv = require('dotenv');
@@ -13,6 +14,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const app = express();
+app.use(express.json());
 
 app.use(express.static(path.join(__dirname, 'public')));
 

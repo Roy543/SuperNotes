@@ -3,6 +3,7 @@ const router = express.Router();
 const passport = require('passport');
 const User = require('../models/User');
 const path = require('path');
+const Note = require ('../models/Note');
 
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
@@ -13,6 +14,44 @@ function ensureAuthenticated(req, res, next) {
     }
 }
 
+//creating new note
+
+router.post('/newnote', async function(req, res, next) {
+    var personName = req.body.personName;
+    var noteTopic = req.body.noteTopic;
+    var noteText = req.body.noteText;
+    var photo = req.body.photo;  // This is the data URI of the photo
+
+    var newNote = new Note({
+        personName: personName,
+        noteTopic: noteTopic,
+        noteText: noteText,
+        photo: photo,
+        userId: req.user._id
+    });
+
+    try {
+        await newNote.save();
+        res.send('Note created successfully');
+    } catch(err) {
+        return next(err);
+    }
+});
+
+
+
+
+// Route for getting all notes for a user
+router.get('/newnote', async function(req, res) {
+    try {
+        let notes = await Note.find({ userId: req.user._id });
+        return res.send(notes);
+    } catch(err) {
+        return res.status(500).send({ error: err });
+    }
+});
+
+//Signup page
 
 router.post('/signup', (req, res) => {
     User.register(new User({ username: req.body.username }), req.body.password, (err, user) => {
@@ -26,6 +65,9 @@ router.post('/signup', (req, res) => {
         });
     });
 });
+
+
+//Login Logout page
 
 router.post('/login', (req, res, next) => {
     passport.authenticate('local', (err, user, info) => {
@@ -75,5 +117,10 @@ router.get('/profile',ensureAuthenticated, function(req, res) {
 router.get('/camera',ensureAuthenticated, function(req, res) {
     res.sendFile(path.join(__dirname, '../public/camera.html'));
 });
+
+router.get('/newnote', ensureAuthenticated, function(req, res) {
+    res.sendFile(path.join(__dirname, '../public/newnote.html'));
+});
+
 
 module.exports = router;

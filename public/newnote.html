@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>New Note</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+    <h1 class="container">Create a new note</h1>
+
+    <form id="new-note-form" class="container">
+        <div class="form-group">
+            <label for="person-name">Person's Name</label>
+            <input type="text" class="form-control" id="person-name">
+        </div>
+
+        <div class="form-group">
+            <label for="note-topic">Note Topic</label>
+            <input type="text" class="form-control" id="note-topic">
+        </div>
+
+        <div class="form-group">
+            <label for="note-text">Note Text</label>
+            <textarea class="form-control" id="note-text"></textarea>
+        </div>
+
+        <div id="my-camera"></div>
+        <button id="start-camera" type="button">Start Camera</button>
+        <button id="capture-photo" type="button" disabled>Take Snapshot</button>
+        <input type="hidden" id="snapshot" name="snapshot">
+
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.25/webcam.min.js"></script>
+    <script>
+        Webcam.set({
+            width: 320,
+            height: 240,
+            image_format: 'jpeg',
+            jpeg_quality: 90
+        });
+        Webcam.attach('#my-camera');
+
+        document.getElementById('capture-photo').onclick = function (event) {
+            Webcam.snap(function (data_uri) {
+                document.getElementById('snapshot').value = data_uri;
+            });
+        };
+    </script>
+    <script src="/scripts/newnote.js"></script>
+</body>
+
+</html>

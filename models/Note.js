@@ -1,14 +1,13 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const NoteSchema = new mongoose.Schema({
-    userId: mongoose.Schema.Types.ObjectId,
-    person: String,
-    topic: String,
-    note: String,
-    created_at: Date,
-    photo: String
+const NoteSchema = new Schema({
+  userId: { type: Schema.Types.ObjectId, ref: 'User' },
+  personName: String,
+  noteTopic: String,
+  noteText: String,
+  created_at: { type: Date, default: Date.now },
+  photo: String
 });
 
-const Note = mongoose.model('Note', NoteSchema);
-
-module.exports = Note;
+module.exports = mongoose.model('Note', NoteSchema);
