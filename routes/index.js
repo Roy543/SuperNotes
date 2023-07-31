@@ -39,15 +39,15 @@ router.post('/newnote', async function(req, res, next) {
 });
 
 
+//getting all note to the profile page
 
-
-// Route for getting all notes for a user
-router.get('/newnote', async function(req, res) {
+router.get('/profile', ensureAuthenticated, async function(req, res) {
     try {
         let notes = await Note.find({ userId: req.user._id });
-        return res.send(notes);
+        res.render('profile', { user: req.user, notes: notes });
     } catch(err) {
-        return res.status(500).send({ error: err });
+        console.error(err);
+        res.status(500).send('An error occurred while retrieving notes.');
     }
 });
 
