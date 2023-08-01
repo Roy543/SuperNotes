@@ -32,6 +32,7 @@ document.getElementById('start-camera').onclick = function (event) {
 document.getElementById('capture-photo').onclick = function (event) {
     Webcam.snap(function (data_uri) {
         document.getElementById('snapshot').value = data_uri;
+        document.getElementById('message').textContent = 'Photo has been taken!';
     });
 
     stopCamera();
