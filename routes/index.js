@@ -14,6 +14,13 @@ function ensureAuthenticated(req, res, next) {
     }
 }
 
+//facesearch page routing
+
+router.get('/facesearch', function(req, res) {
+    res.sendFile(path.join(__dirname, '../public/facesearch.html'));
+});
+
+
 //creating new note
 
 router.post('/newnote', async function(req, res, next) {

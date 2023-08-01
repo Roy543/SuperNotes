@@ -20,6 +20,8 @@
                 <a class="btn btn-primary mr-2" href="newnote.html">New Note</a>
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                <a class="btn btn-primary mr-2" href="facesearch">Face Search</a>
+
             </form>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item dropdown">
@@ -40,13 +42,17 @@
         <h2>Your Notes</h2>
         <div class="row">
             <% notes.forEach(function(note) { %>
-            <div class="col-md-6"> <!-- Adjust the column size based on your preference -->
+            <div class="col-md-6">
                 <div class="card mb-3">
                     <div class="card-body">
                         <h3 class="card-title"><%= note.noteTopic %></h3>
-                        <p class="card-text"><%= note.noteText %></p>
-                        <!-- You might need to handle the display of the photo differently
-                        <img src="<%= note.photo %>" class="img-fluid" alt="Note Photo"> -->
+                        <p class="card-text short-text">
+                            <%= note.noteText.substring(0, 200) %>
+                            <% if (note.noteText.length > 200) { %>
+                            <span class="more-text"><%= note.noteText.substring(200) %></span>
+                            <button class="read-more btn btn-link">Read More</button>
+                            <% } %>
+                        </p>
                     </div>
                 </div>
             </div>
