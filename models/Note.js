@@ -7,7 +7,8 @@ const NoteSchema = new Schema({
   noteTopic: String,
   noteText: String,
   created_at: { type: Date, default: Date.now },
-  photo: String
+  photo: String,
+  faceDescriptor: [Number]
 });
 
 module.exports = mongoose.model('Note', NoteSchema);

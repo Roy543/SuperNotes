@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@tensorflow/tfjs-node": "^4.10.0",
     "@vladmandic/face-api": "^1.7.12",
     "bcrypt": "^5.1.0",
     "connect-mongo": "^5.0.0",
