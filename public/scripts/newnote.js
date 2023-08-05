@@ -1,5 +1,14 @@
 var isCameraStarted = false;
 
+async function loadModels() {
+    const MODEL_URL = '/models';
+    await faceapi.nets.ssdMobilenetv1.loadFromUri(MODEL_URL);
+    await faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL);
+    await faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL);
+}
+
+loadModels();
+
 // Function to start the camera
 function startCamera() {
     if (!isCameraStarted) {
@@ -30,9 +39,36 @@ document.getElementById('start-camera').onclick = function (event) {
 
 // Handle capture button click
 document.getElementById('capture-photo').onclick = function (event) {
-    Webcam.snap(function (data_uri) {
+    Webcam.snap(async function (data_uri) {
         document.getElementById('snapshot').value = data_uri;
         document.getElementById('message').textContent = 'Photo has been taken!';
+
+        // // Convert the data URI to a HTML image element
+        // const img = new Image();
+        // img.src = data_uri;
+        // await new Promise(resolve => img.onload = resolve);
+
+        // // Extract the face descriptor
+        // const detections = await faceapi.detectAllFaces(img)
+        //     .withFaceLandmarks()
+        //     .withFaceDescriptors();
+
+            const image = await faceapi.fetchImage(data_uri);
+            const detections = await faceapi.detectSingleFace(image).withFaceLandmarks().withFaceDescriptor();
+            if (detections) {
+                document.getElementById('descriptor').value = detections.descriptor;
+            } else {
+                console.log('No faces detected in image.');
+            }
+
+        if (detections.length > 0) {
+            if (Array.isArray(detections.descriptor)) {
+                document.getElementById('descriptor').value = JSON.stringify(detections.descriptor);
+            } else {
+                console.log('Descriptor is not an array.');
+            }
+            
+        }
     });
 
     stopCamera();
@@ -47,12 +83,20 @@ $('#new-note-form').on('submit', function (e) {
     var noteTopic = $('#note-topic').val();
     var noteText = $('#note-text').val();
     var photo = $('#snapshot').val();
+    var descriptorString = $('#descriptor').val();
+
+    console.log('descriptorString:', descriptorString);
+    console.log('First 25 characters of descriptorString:', descriptorString.substring(0, 25));
+
+    // Splitting the descriptor string into an array of numbers
+    var descriptor = descriptorString ? descriptorString.split(',').map(Number) : [];
 
     var data = {
         personName: personName,
         noteTopic: noteTopic,
         noteText: noteText,
-        photo: btoa(photo)  // use Base64 encoding
+        photo: btoa(photo),  // use Base64 encoding
+        descriptor: descriptor
     };
 
     $.ajax({

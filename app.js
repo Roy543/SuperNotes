@@ -4,6 +4,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const passport = require('passport');
+const faceapi = require('@vladmandic/face-api');
 const LocalStrategy = require('passport-local').Strategy;
 const User = require('./models/User');
 const Note = require ('./models/Note');
@@ -16,7 +17,8 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
-app.use(express.static(path.join(__dirname, 'public')));
+//app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'));
 
 
 //for dynamic

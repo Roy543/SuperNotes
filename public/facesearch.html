@@ -1,15 +1,35 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Face Search</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="/scripts/face-api.js"></script>
+
+    <!-- <script src="https://unpkg.com/@vladmandic/face-api"></script> -->
 </head>
+
 <body>
     <div class="container mt-5">
         <h1>Face Search Page</h1>
-        <!-- Add your content here -->
+
+        <div id="my-camera" class="form-group"></div>
+        <button id="start-camera" type="button" class="btn btn-primary">Start Camera</button>
+        <button id="capture-photo" type="button" class="btn btn-primary" disabled>Take Snapshot</button>
+        <input type="hidden" id="descriptor" name="descriptor">
+        <button id="submit-search" type="button" class="btn btn-primary" disabled>Search Notes</button>
+        <input type="hidden" id="snapshot" name="snapshot">
+
+        <div id="results"></div>
+
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.25/webcam.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <!-- <script type="module" src="https://unpkg.com/@vladmandic/face-api"></script> -->
+    <script src="/scripts/facesearch.js"></script>
+
 </body>
+
 </html>
