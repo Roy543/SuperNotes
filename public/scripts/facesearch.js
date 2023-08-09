@@ -85,9 +85,29 @@ document.getElementById('submit-search').onclick = function (event) {
     }).done(function (notes) {
         const resultsDiv = document.getElementById('results');
         notes.forEach(note => {
-            const noteDiv = document.createElement('div');
-            noteDiv.textContent = `Topic: ${note.noteTopic}, Name: ${note.personName}, Text: ${note.noteText}`; // Add the note details
-            resultsDiv.appendChild(noteDiv);
+            const noteCard = document.createElement('div');
+            noteCard.className = 'card mt-3'; // Add Bootstrap card class and margin-top
+    
+            const cardBody = document.createElement('div');
+            cardBody.className = 'card-body';
+    
+            const cardTitle = document.createElement('h5');
+            cardTitle.className = 'card-title';
+            cardTitle.textContent = `Name: ${note.personName}`;
+    
+            const cardSubtitle = document.createElement('h6');
+            cardSubtitle.className = 'card-subtitle mb-2 text-muted';
+            cardSubtitle.textContent = `Topic: ${note.noteTopic}`;
+    
+            const cardText = document.createElement('p');
+            cardText.className = 'card-text';
+            cardText.textContent = note.noteText;
+    
+            cardBody.appendChild(cardTitle);
+            cardBody.appendChild(cardSubtitle);
+            cardBody.appendChild(cardText);
+            noteCard.appendChild(cardBody);
+            resultsDiv.appendChild(noteCard);
         });
     }).fail(function (err) {
         alert('Error: ' + err.responseText);
