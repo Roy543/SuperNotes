@@ -9,6 +9,11 @@ async function loadModels() {
 
 loadModels();
 
+window.onload = function () {
+    // Clear the results div
+    document.getElementById('results').innerHTML = '';
+};
+
 function startCamera() {
     if (!isCameraStarted) {
         Webcam.set({
@@ -62,6 +67,12 @@ document.getElementById('capture-photo').onclick = async function (event) {
 };
 
 document.getElementById('submit-search').onclick = function (event) {
+    const resultsDiv = document.getElementById('results');
+    resultsDiv.innerHTML = '';
+    while (resultsDiv.firstChild) {
+        resultsDiv.firstChild.remove();
+    }
+
     const descriptorString = document.getElementById('descriptor').value;
     console.log(`Sent descriptor: ${descriptorString}`);
     const descriptor = JSON.parse(descriptorString);
@@ -75,7 +86,7 @@ document.getElementById('submit-search').onclick = function (event) {
         const resultsDiv = document.getElementById('results');
         notes.forEach(note => {
             const noteDiv = document.createElement('div');
-            noteDiv.textContent = note.noteText; // Add the note details
+            noteDiv.textContent = `Topic: ${note.noteTopic}, Name: ${note.personName}, Text: ${note.noteText}`; // Add the note details
             resultsDiv.appendChild(noteDiv);
         });
     }).fail(function (err) {

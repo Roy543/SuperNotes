@@ -6,6 +6,16 @@ const User = require('../models/User');
 const path = require('path');
 const Note = require('../models/Note');
 
+
+function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    } else {
+        // Redirect unauthenticated requests to the login page
+        res.redirect('/login');
+    }
+}
+
 function euclideanDistance(arr1, arr2) {
     if (arr1.length !== arr2.length) {
         throw new Error('Arrays should have the same length');
@@ -19,31 +29,28 @@ function euclideanDistance(arr1, arr2) {
     return Math.sqrt(squareSum);
 }
 
-
-function ensureAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    } else {
-        // Redirect unauthenticated requests to the login page
-        res.redirect('/login');
-    }
-}
-
 //facesearch routing
-
 router.post('/facesearch', async function (req, res, next) {
+    res.setHeader('Surrogate-Control', 'no-store');
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+    
     const descriptor = req.body.descriptor;
+    const userId = req.user._id;
 
-    // You'll need to implement logic to compare the descriptor
-    // with the descriptors in the notes to find matches
-    // Here's a pseudo-code example:
+    const matchedNotes = await findMatchingNotes(descriptor, userId);
 
-    const matchedNotes = await findMatchingNotes(descriptor);
+    // Send the matching notes back to the client
+    res.json(matchedNotes.map(note => ({
+        noteText: note.noteText,
+        noteTopic: note.noteTopic,
+        personName: note.personName
+    })));
 
-    res.json(matchedNotes);
 });
 
-async function findMatchingNotes(descriptor) {
+async function findMatchingNotes(descriptor, userId) {
     // Parse the descriptor string back into an array, if it is a string
     var queryDescriptor;
     if (typeof descriptor === "string") {
@@ -54,7 +61,7 @@ async function findMatchingNotes(descriptor) {
     queryDescriptor = Object.values(queryDescriptor); // Convert object to array
 
     // Get all the notes from the database
-    var notes = await Note.find({});
+    var notes = await Note.find({ userId: userId });
 
     // Filter the notes to only include those with a matching descriptor
     var matchedNotes = notes.filter(note => {
@@ -71,42 +78,14 @@ async function findMatchingNotes(descriptor) {
         return distance < 0.6;
     });
 
-
     return matchedNotes;
 }
 
-//sending face descriptor to the server
-
-router.post('/facesearch', async function (req, res, next) {
-    // Extract the face descriptor from the request body
-    const descriptor = req.body.descriptor;
-    console.log(descriptor);
-
-    // Convert the descriptor back to a Float32Array
-    const descriptorFloat32Array = Float32Array.from(descriptor);
-
-    // Query the database for all notes
-    const notes = await Note.find();
-
-    // code to compare the descriptors and send the matching notes back to the client here
-
-    const matchingNotes = notes.filter(note => {
-        const noteDescriptor = Float32Array.from(note.faceDescriptor);
-        const distance = faceapi.euclideanDistance(descriptorFloat32Array, noteDescriptor);
-        return distance <= 0.6; // Threshold for deciding whether descriptors match
-    });
-
-    // Send the matching notes back to the client
-    res.json(matchingNotes);
-
-});
-
-
 //facesearch page routing
-
 router.get('/facesearch', function (req, res) {
     res.sendFile(path.join(__dirname, '../public/facesearch.html'));
 });
+
 
 //creating new note
 router.post('/newnote', async function (req, res, next) {
