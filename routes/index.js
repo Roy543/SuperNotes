@@ -68,14 +68,11 @@ async function findMatchingNotes(descriptor, userId) {
         // Parse the note's descriptor string back into an array, if it is a string
         var noteDescriptor = (typeof note.faceDescriptor === "string") ? JSON.parse(note.faceDescriptor) : note.faceDescriptor;
 
-        // Log the lengths of the two descriptors
-        console.log(`queryDescriptor length: ${queryDescriptor.length}, noteDescriptor length: ${noteDescriptor.length}`);
-
         // Compare the query descriptor with the note's descriptor
         var distance = euclideanDistance(queryDescriptor, noteDescriptor);
 
         // Consider the descriptors to match if the distance is below a certain threshold
-        return distance < 0.4;
+        return distance < 0.5;
     });
 
     return matchedNotes;
@@ -190,7 +187,6 @@ router.get('/logout', function (req, res, next) {
     });
 });
 
-
 router.get('/profile', ensureAuthenticated, function (req, res) {
     res.render('profile', { user: req.user });
 });
@@ -198,6 +194,5 @@ router.get('/profile', ensureAuthenticated, function (req, res) {
 router.get('/newnote', ensureAuthenticated, function (req, res) {
     res.sendFile(path.join(__dirname, '../public/newnote.html'));
 });
-
 
 module.exports = router;
