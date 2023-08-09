@@ -75,7 +75,7 @@ async function findMatchingNotes(descriptor, userId) {
         var distance = euclideanDistance(queryDescriptor, noteDescriptor);
 
         // Consider the descriptors to match if the distance is below a certain threshold
-        return distance < 0.6;
+        return distance < 0.4;
     });
 
     return matchedNotes;

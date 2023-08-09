@@ -45,7 +45,8 @@
             <div class="col-md-6">
                 <div class="card mb-3">
                     <div class="card-body">
-                        <h3 class="card-title"><%= note.noteTopic %></h3>
+                        <h2 class="card-title"><%= note.personName %></h2>
+                        <h4 class="card-title"><%= note.noteTopic %></h4>
                         <p class="card-text short-text">
                             <%= note.noteText.substring(0, 200) %>
                             <% if (note.noteText.length > 200) { %>
