@@ -16,6 +16,20 @@ $(document).ready(function(){
         }
     });
 
+    $('.delete-note').on('click', function() {
+        const noteId = $(this).data('note-id');
+        $.ajax({
+            url: '/note/' + noteId,
+            method: 'DELETE',
+        }).done(function() {
+            alert('Note deleted successfully');
+            location.reload();  // Reload the page to show the notes after deletion
+        }).fail(function(err) {
+            alert('Error: ' + err.responseText);
+        });
+    });
+    
+
     $('.update-note').on('click', function(){
         var noteId = $(this).data('note-id');
         

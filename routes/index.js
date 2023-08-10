@@ -43,6 +43,7 @@ router.post('/facesearch', async function (req, res, next) {
 
     // Send the matching notes back to the client
     res.json(matchedNotes.map(note => ({
+        _id: note._id,
         noteText: note.noteText,
         noteTopic: note.noteTopic,
         personName: note.personName
@@ -114,6 +115,42 @@ router.post('/newnote', async function (req, res, next) {
     }
 });
 
+//For Updating Notes
+router.get('/update-note/:id', ensureAuthenticated, async function(req, res) {
+    try {
+        const note = await Note.findById(req.params.id);
+        if (note.userId.toString() === req.user._id.toString()) {
+            res.render('update-note', { user: req.user, note: note });
+        } else {
+            res.status(403).send('Permission denied.');
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred.');
+    }
+});
+
+router.post('/note/:id/update', ensureAuthenticated, async function(req, res) {
+    try {
+        await Note.findByIdAndUpdate(req.params.id, req.body);
+        res.redirect('/profile');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred while updating the note.');
+    }
+});
+
+
+//For deleting notes
+router.delete('/note/:id', ensureAuthenticated, async function(req, res) {
+    try {
+        await Note.findByIdAndRemove(req.params.id);
+        res.status(200).send('Note deleted successfully');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred while deleting the note.');
+    }
+});
 
 
 
