@@ -24,6 +24,7 @@ function startCamera() {
         });
         Webcam.attach('#my-camera');
         isCameraStarted = true;
+        document.getElementById('my-camera').style.display = 'block';
     }
 }
 
@@ -31,6 +32,7 @@ function stopCamera() {
     if (isCameraStarted) {
         Webcam.reset();
         isCameraStarted = false;
+        document.getElementById('my-camera').style.display = 'none';
     }
 }
 
@@ -84,32 +86,71 @@ document.getElementById('submit-search').onclick = function (event) {
         contentType: 'application/json'
     }).done(function (notes) {
         const resultsDiv = document.getElementById('results');
-        notes.forEach(note => {
+        let rowDiv = null; // This will be used to group two cards into a single row
+    
+        notes.forEach((note, index) => {
+            // Create a new row for every two cards
+            if (index % 2 === 0) {
+                rowDiv = document.createElement('div');
+                rowDiv.className = 'row';
+                resultsDiv.appendChild(rowDiv);
+            }
+    
+            const colDiv = document.createElement('div');
+            colDiv.className = 'col-md-6';
+    
             const noteCard = document.createElement('div');
             noteCard.className = 'card mt-3'; // Add Bootstrap card class and margin-top
     
             const cardBody = document.createElement('div');
             cardBody.className = 'card-body';
     
+            const deleteButton = document.createElement('button');
+            deleteButton.className = 'btn btn-danger btn-sm float-right ml-2'; // Top right
+            deleteButton.textContent = 'Delete';
+            deleteButton.onclick = function() {
+                console.log(note._id)
+                if (confirm('Are you sure you want to delete this note?')) {
+                    $.ajax({
+                        url: `/note/${note._id}`,
+                        method: 'DELETE'
+                    }).done(function() {
+                        alert('Note deleted successfully');
+                        location.reload();  // Reload the page to reflect the changes
+                    }).fail(function(err) {
+                        alert('Error: ' + err.responseText);
+                    });
+                }
+            };
+            
+            cardBody.appendChild(deleteButton);
+    
+            const updateButton = document.createElement('a');
+            updateButton.className = 'btn btn-warning btn-sm float-right'; // Top right next to delete button
+            updateButton.textContent = 'Update';
+            updateButton.href = `/update-note/${note._id}`; // Assuming the note has an _id field
+            cardBody.appendChild(updateButton);
+    
             const cardTitle = document.createElement('h5');
             cardTitle.className = 'card-title';
             cardTitle.textContent = `Name: ${note.personName}`;
+            cardBody.appendChild(cardTitle);
     
             const cardSubtitle = document.createElement('h6');
             cardSubtitle.className = 'card-subtitle mb-2 text-muted';
             cardSubtitle.textContent = `Topic: ${note.noteTopic}`;
+            cardBody.appendChild(cardSubtitle);
     
             const cardText = document.createElement('p');
             cardText.className = 'card-text';
             cardText.textContent = note.noteText;
-    
-            cardBody.appendChild(cardTitle);
-            cardBody.appendChild(cardSubtitle);
             cardBody.appendChild(cardText);
+    
             noteCard.appendChild(cardBody);
-            resultsDiv.appendChild(noteCard);
+            colDiv.appendChild(noteCard);
+            rowDiv.appendChild(colDiv);
         });
     }).fail(function (err) {
         alert('Error: ' + err.responseText);
-    });
+    });    
 };

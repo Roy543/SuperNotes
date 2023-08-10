@@ -20,6 +20,7 @@ function startCamera() {
         });
         Webcam.attach('#my-camera');
         isCameraStarted = true;
+        document.getElementById('my-camera').style.display = 'block';
     }
 }
 
@@ -28,6 +29,7 @@ function stopCamera() {
     if (isCameraStarted) {
         Webcam.reset();
         isCameraStarted = false;
+        document.getElementById('my-camera').style.display = 'none';
     }
 }
 

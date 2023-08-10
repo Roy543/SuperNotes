@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Update Note</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h2>Update Note</h2>
+        <form action="/note/<%= note._id %>/update" method="post">
+            <div class="form-group">
+                <label for="personName">Person's Name:</label>
+                <input type="text" class="form-control" id="personName" name="personName" value="<%= note.personName %>" required>
+            </div>
+            <div class="form-group">
+                <label for="noteTopic">Note Topic:</label>
+                <input type="text" class="form-control" id="noteTopic" name="noteTopic" value="<%= note.noteTopic %>" required>
+            </div>
+            <div class="form-group">
+                <label for="noteText">Note Text:</label>
+                <textarea class="form-control" id="noteText" name="noteText" rows="5" required><%= note.noteText %></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Update Note</button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
