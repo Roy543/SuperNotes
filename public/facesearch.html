@@ -1,25 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Face Search</title>
     <!-- Include Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f7f9;
+        }
+
+        .btn-custom {
+            color: #fff;
+            border-radius: 50px;
+            padding: 12px 25px;
+            font-weight: 600;
+        }
+
+        #start-camera {
+            background-color: #007bff;
+        }
+
+        #capture-photo {
+            background-color: #28a745;
+        }
+
+        #submit-search {
+            background-color: #ffc107;
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
     <script src="/scripts/face-api.js"></script>
 </head>
+
 <body>
     <div class="container mt-5">
-        <h1>Face Search Page</h1>
+        <h1 class="mb-4">Face Search</h1>
 
-        <div id="my-camera" class="form-group"></div>
-        <button id="start-camera" type="button" class="btn btn-primary">Start Camera</button>
-        <button id="capture-photo" type="button" class="btn btn-primary" disabled>Take Snapshot</button>
+        <div id="my-camera" class="form-group mb-3"></div>
+        <button id="start-camera" type="button" class="btn btn-custom mb-2 mr-2">Start Camera</button>
+        <button id="capture-photo" type="button" class="btn btn-custom mb-2 mr-2" disabled>Take Snapshot</button>
+        <button id="submit-search" type="button" class="btn btn-custom mb-2" disabled>Search Notes</button>
+
         <input type="hidden" id="descriptor" name="descriptor">
-        <button id="submit-search" type="button" class="btn btn-primary" disabled>Search Notes</button>
         <input type="hidden" id="snapshot" name="snapshot">
 
-        <h2>Search Results</h2>
+        <h2 class="mt-5">Search Results</h2>
         <div id="results" class="mt-4">
             <!-- This is where the results will be displayed -->
         </div>
@@ -30,7 +69,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.25/webcam.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
-    <!-- <script type="module" src="https://unpkg.com/@vladmandic/face-api"></script> -->
     <script src="/scripts/facesearch.js"></script>
 </body>
+
 </html>

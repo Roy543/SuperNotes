@@ -1,4 +1,7 @@
 var isCameraStarted = false;
+var quill = new Quill('#editor', {
+    theme: 'snow'
+});
 
 async function loadModels() {
     const MODEL_URL = '/models';
@@ -80,6 +83,8 @@ document.getElementById('capture-photo').onclick = function (event) {
 
 $('#new-note-form').on('submit', function (e) {
     e.preventDefault();
+    var noteContent = quill.root.innerHTML;
+    $('#note-text').val(noteContent);
 
     var personName = $('#person-name').val();
     var noteTopic = $('#note-topic').val();

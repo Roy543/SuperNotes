@@ -29,13 +29,33 @@ function euclideanDistance(arr1, arr2) {
     return Math.sqrt(squareSum);
 }
 
+//face search functionality with search bar
+
+router.get('/search-notes', ensureAuthenticated, async function (req, res) {
+    try {
+        let query = req.query.query; // This gets the search query from the URL
+        let notes = await Note.find({
+            userId: req.user._id,
+            $or: [
+                { personName: new RegExp(query, 'i') },  // 'i' means case-insensitive
+                { noteTopic: new RegExp(query, 'i') }
+            ]
+        });
+        res.render('profile', { user: req.user, notes: notes });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred while searching notes.');
+    }
+});
+
+
 //facesearch routing
 router.post('/facesearch', async function (req, res, next) {
     res.setHeader('Surrogate-Control', 'no-store');
     res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
     res.setHeader('Pragma', 'no-cache');
     res.setHeader('Expires', '0');
-    
+
     const descriptor = req.body.descriptor;
     const userId = req.user._id;
 
@@ -116,7 +136,7 @@ router.post('/newnote', async function (req, res, next) {
 });
 
 //For Updating Notes
-router.get('/update-note/:id', ensureAuthenticated, async function(req, res) {
+router.get('/update-note/:id', ensureAuthenticated, async function (req, res) {
     try {
         const note = await Note.findById(req.params.id);
         if (note.userId.toString() === req.user._id.toString()) {
@@ -130,7 +150,7 @@ router.get('/update-note/:id', ensureAuthenticated, async function(req, res) {
     }
 });
 
-router.post('/note/:id/update', ensureAuthenticated, async function(req, res) {
+router.post('/note/:id/update', ensureAuthenticated, async function (req, res) {
     try {
         await Note.findByIdAndUpdate(req.params.id, req.body);
         res.redirect('/profile');
@@ -142,7 +162,7 @@ router.post('/note/:id/update', ensureAuthenticated, async function(req, res) {
 
 
 //For deleting notes
-router.delete('/note/:id', ensureAuthenticated, async function(req, res) {
+router.delete('/note/:id', ensureAuthenticated, async function (req, res) {
     try {
         await Note.findByIdAndRemove(req.params.id);
         res.status(200).send('Note deleted successfully');
