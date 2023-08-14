@@ -189,7 +189,7 @@ router.get('/profile', ensureAuthenticated, async function (req, res) {
 //Signup page
 
 router.post('/signup', (req, res) => {
-    User.register(new User({ username: req.body.username }), req.body.password, (err, user) => {
+    User.register(new User({ username: req.body.username, email: req.body.email }), req.body.password, (err, user) => {
         if (err) {
             console.error(err);
             res.status(500).send('An error occurred during sign up.');
@@ -237,16 +237,16 @@ router.get('/login', function (req, res) {
 });
 
 
-router.get('/logout', function (req, res, next) {
-    req.logout(function (err) {
-        if (err) { return next(err); }
+router.get('/logout', function (req, res) {
+    req.logout(function(err) {
+        if(err) {
+            console.error(err);
+            return res.status(500).send("Error logging out.");
+        }
         res.redirect('/login');
     });
 });
 
-router.get('/profile', ensureAuthenticated, function (req, res) {
-    res.render('profile', { user: req.user });
-});
 
 router.get('/newnote', ensureAuthenticated, function (req, res) {
     res.sendFile(path.join(__dirname, '../public/newnote.html'));

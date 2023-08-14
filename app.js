@@ -36,15 +36,28 @@ app.use(session({
     store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI })
 }));
 
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Passport configuration
 passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
 
-app.use(session({ secret: 'my secret', resave: false, saveUninitialized: true }));
-app.use(passport.initialize());
-app.use(passport.session());
+// After your Passport strategies and before app routes
+
+passport.serializeUser((user, done) => {
+    done(null, user.id); // This stores the user.id in the session
+});
+
+passport.deserializeUser(async (id, done) => {
+    try {
+        const user = await User.findById(id);
+        done(null, user);
+    } catch (err) {
+        console.error("Error deserializing user:", err);
+        done(err, null);
+    }
+});
+
 
 
 // Connect to MongoDB, define routes, and start server...
