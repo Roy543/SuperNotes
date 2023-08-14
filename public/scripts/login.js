@@ -11,7 +11,6 @@ $(document).ready(function () {
                 window.location.href = '/profile';
             })
             .fail(function (err) {
-                // Handle error, e.g., display error message
                 alert('Error: ' + err.responseText);
             });
     });

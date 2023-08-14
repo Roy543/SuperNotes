@@ -48,16 +48,6 @@ document.getElementById('capture-photo').onclick = function (event) {
         document.getElementById('snapshot').value = data_uri;
         document.getElementById('message').textContent = 'Photo has been taken!';
 
-        // // Convert the data URI to a HTML image element
-        // const img = new Image();
-        // img.src = data_uri;
-        // await new Promise(resolve => img.onload = resolve);
-
-        // // Extract the face descriptor
-        // const detections = await faceapi.detectAllFaces(img)
-        //     .withFaceLandmarks()
-        //     .withFaceDescriptors();
-
             const image = await faceapi.fetchImage(data_uri);
             const detections = await faceapi.detectSingleFace(image).withFaceLandmarks().withFaceDescriptor();
             if (detections) {
