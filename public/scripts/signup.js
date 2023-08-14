@@ -4,8 +4,9 @@ $(document).ready(function () {
 
         var username = $('#username').val();
         var password = $('#password').val();
+        var email = $('#email').val();
 
-        $.post('/signup', { username: username, password: password })
+        $.post('/signup', { username: username, email: email, password: password })
             .done(function (data) {
                 alert('Signup successful!');
                 window.location.href = '/profile';
