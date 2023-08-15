@@ -25,7 +25,7 @@ Start the MongoDB server.
 Run the application:
 
 node app.js
-Visit http://localhost:3000 in your browser.
+Visit http://localhost:3000/login in your browser.
 
 Usage
 Signup or Login using the respective pages.
