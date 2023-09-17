@@ -8,7 +8,7 @@ $(document).ready(function () {
 
         $.post('/signup', { username: username, email: email, password: password })
             .done(function (data) {
-                alert('Signup successful!');
+                // alert('Signup successful!');
                 window.location.href = '/profile';
             })
             .fail(function (err) {
