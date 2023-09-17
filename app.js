@@ -66,7 +66,15 @@ app.use('/', indexRouter);
 app.use(express.static('public'));
 
 
-mongoose.connect('mongodb://localhost/myapp', {useNewUrlParser: true, useUnifiedTopology: true});
+// mongoose.connect('mongodb://localhost/myapp', {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect("mongodb://127.0.0.1:27017/face-app",{
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}).then(()=>{
+    console.log(`connection sucessful`);
+}).catch((e)=>{
+    console.log(`no connection`);
+})
 app.listen(3000, () => console.log('Server is running on port 3000'));
 
 module.exports = router;
