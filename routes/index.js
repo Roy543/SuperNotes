@@ -186,6 +186,15 @@ router.get('/profile', ensureAuthenticated, async function (req, res) {
     }
 });
 
+
+router.get('/', function (req, res) {
+    if (req.isAuthenticated()) {
+        res.redirect('/profile');
+    } else {
+        res.redirect('/login');
+    }
+});
+
 //Signup page
 
 router.post('/signup', (req, res) => {
