@@ -30,7 +30,7 @@ background-position: 50% 50%;
 }
 
 .signup-container .btn, .form-control {
-    border-radius: 20px;
+    border-radius: 10px;
 }
 
 .signup-container .btn {
@@ -38,10 +38,10 @@ background-position: 50% 50%;
     transition: all 0.3s;
 }
 
-.signup-container .btn:hover {
+/* .signup-container .btn:hover {
     background-color: #0070dd;
     border-color: #0070dd;
-}
+} */
 
 a:hover {
     text-decoration: underline;

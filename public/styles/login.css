@@ -32,18 +32,18 @@ background-position: 50% 50%;
 }
 
 .login-container .btn, .form-control {
-    border-radius: 20px;
+    border-radius: 10px;
 }
 
 .login-container .btn {
     width: 100%;
     transition: all 0.3s;
 }
-
+/* 
 .login-container .btn:hover {
     background-color: #0070dd;
     border-color: #0070dd;
-}
+} */
 
 a:hover {
     text-decoration: underline;
