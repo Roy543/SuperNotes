@@ -47,7 +47,7 @@ passport.use(
         {
             clientID: process.env.CLIENT_ID,
             clientSecret: process.env.CLIENT_SECRET,
-            callbackURL: 'http://localhost:3000/auth/google/secret', // Replace with your callback URL
+            callbackURL: 'https://supernote.onrender.com/auth/google/secret', // Replace with your callback URL
             userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo"
             
         },
