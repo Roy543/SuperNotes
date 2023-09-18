@@ -141,13 +141,14 @@ app.use(express.static('public'));
 
 
 // mongoose.connect('mongodb://localhost/myapp', {useNewUrlParser: true, useUnifiedTopology: true});
-mongoose.connect("mongodb://127.0.0.1:27017/face-app", {
+mongoose.connect(`${process.env.MONGODB_URI}Supernote`, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => {
     console.log(`connection sucessful`);
 }).catch((e) => {
     console.log(`no connection`);
+    console.log(e);
 })
 
 app.listen(3000, () => console.log('Server is running on port 3000'));
