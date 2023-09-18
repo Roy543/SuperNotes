@@ -7,7 +7,7 @@ $(document).ready(function () {
 
         $.post('/login', { username: username, password: password })
             .done(function (data) {
-                alert('Login successful!');
+                // alert('Login successful!');
                 window.location.href = '/profile';
             })
             .fail(function (err) {
