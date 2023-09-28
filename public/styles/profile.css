@@ -127,3 +127,19 @@ h2 {
 .font-size {
   font-size: 20px;
 }
+
+
+/* Custom CSS for white navbar-toggler button in mobile size */
+@media (max-width: 767px) {
+  .custom-toggler {
+      color: white;
+  }
+}
+
+/* Custom CSS for white search bar in mobile size */
+@media (max-width: 767px) {
+  .custom-search-bar {
+    background-color: white;
+    color: #000000; /* Text color for better visibility */
+  }
+}

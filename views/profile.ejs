@@ -11,6 +11,7 @@
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <link rel="stylesheet" href="styles/profile.css">
 
@@ -28,26 +29,28 @@
     <nav class="navbar navbar-expand-lg fixed-top">
       <a class="navbar-brand" href="#">SuperNotes</a>
       <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarNavDropdown"
-        aria-controls="navbarNavDropdown"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
+      class="navbar-toggler collapsed" 
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarNavDropdown"
+      aria-controls="navbarNavDropdown"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+    <i class="fa-solid fa-bars" style="color: #ffffff;"></i>
+    </button>
+    
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <form class="form-inline ml-auto" action="/search-notes" method="GET">
           <a class="btn btn-info mr-2" href="newnote.html">New Note</a>
           <input
-            class="form-control mr-sm-2"
-            type="search"
-            name="query"
-            placeholder="Search"
-            aria-label="Search"
-          />
+          class="form-control mr-sm-2 custom-search-bar"
+          type="search"
+          name="query"
+          placeholder="Search"
+          aria-label="Search"
+        />
+        
           <button class="btn btn-outline-light my-2 my-sm-0 mr-2" type="submit">
             Search
           </button>
