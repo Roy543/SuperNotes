@@ -176,9 +176,38 @@ router.delete('/note/:id', ensureAuthenticated, async function (req, res) {
 
 //getting all note to the profile page
 
+// router.get('/profile', ensureAuthenticated, async function (req, res) {
+//     try {
+//         let notes = await Note.find({ userId: req.user._id });
+//         res.render('profile', { user: req.user, notes: notes });
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).send('An error occurred while retrieving notes.');
+//     }
+// });
+
 router.get('/profile', ensureAuthenticated, async function (req, res) {
     try {
         let notes = await Note.find({ userId: req.user._id });
+
+        // Loop through the notes and update the content to capitalize every second line in each paragraph
+        notes = notes.map((note) => {
+            // Split the note content into paragraphs
+            var paragraphs = note.noteText.split('</p><p>');
+
+            // Loop through the paragraphs and capitalize the second line
+            for (var i = 0; i < paragraphs.length; i++) {
+                // Check if it's an even-numbered paragraph
+                if (i % 2 === 1) {
+                    paragraphs[i] = paragraphs[i].toUpperCase();
+                }
+            }
+
+            // Join the paragraphs back into a single string
+            note.noteText = paragraphs.join('</p><p>');
+            return note;
+        });
+
         res.render('profile', { user: req.user, notes: notes });
     } catch (err) {
         console.error(err);
